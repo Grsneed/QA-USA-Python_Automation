@@ -1,3 +1,4 @@
+# Importing needed files
 import data
 import helpers
 from data import URBAN_ROUTES_URL
@@ -10,7 +11,8 @@ class TestUrbanRoutes:
             print("Connected to the Urban Routes Server")
         else:
             print("Cannot connect to Urban Routes")
-
+        # Make sure server is on and connected
+        #Make sure server is off and says cannot connect
     def test_set_route(self):
         # Add in S8
         print("function created for set route")
@@ -44,6 +46,7 @@ class TestUrbanRoutes:
     def test_order_2_ice_creams(self):
         for i in range(2):
     # Add in S8
+    #Adding a loop to iterate twice for order_2_ice_cream
             print("function created for order 2 ice cream")
     pass
 
