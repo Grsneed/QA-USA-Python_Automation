@@ -36,7 +36,7 @@ class TestUrbanRoutes:
         routes_page.enter_from_location(data.ADDRESS_FROM)
         routes_page.enter_to_location(data.ADDRESS_TO)
         routes_page.select_supportive_plan()
-        assert routes_page.get_current_selected_plan() == 'Supportive'
+        assert routes_page.get_current_selected_plan() == "tcard active"
 
 
     def test_fill_phone_number(self):
