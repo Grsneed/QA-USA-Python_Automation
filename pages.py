@@ -6,27 +6,27 @@ import data
 
 class UrbanRoutesPage:
 
-    # Addresses
+     # Addresses
     FROM_LOCATOR = (By.ID, 'from')
     TO_LOCATOR = (By.ID, 'to')
      #Tariff
     CUSTOM_OPTION_LOCATOR = (By.XPATH, '//div[text()="Custom"]')
-    TAXI_ICON_LOCATOR = (By.XPATH, '//*[@id="root"]/div[3[/div[1]/div[2]/div[3]/img')
+    TAXI_ICON_LOCATOR = (By.XPATH, '//*[@id="root"]/div[3]/div[1]/div[2]/div[3]/img')
     CALL_A_TAXI_BUTTON_LOCATOR = (By.XPATH, '//button[contains(text(), "Call a taxi")]')
-    SUPPORTIVE_PLAN_ACTIVE = (By.XPATH, "//div[containS(@class, 't-card active')]")
-    #Phone Number
+    SUPPORTIVE_PLAN_LOCATOR = (By.XPATH, "//div[contains(@class, 't-card active')]")
+     #Phone Number
     PHONE_LOCATOR = (By.CLASS_NAME, 'np-text')
     PHONE_NUMBER_FIELD_LOCATOR = (By.XPATH, '//div[text()= "Phone number")]')
     PHONE_NUMBER = (By.XPATH, '/[div@class="np_button"//div[contains(text)(),"Phone number)]')
-    PHONE_INPUT = (By.ID, "phone")
+    PHONE_FIELD_LOCATOR = (By.ID, "phone")
     NEXT_BUTTON_LOCATOR = (By.XPATH, '//button[text()="NEXT"]')
     PHONE_CODE_LOCATOR = (By.ID, 'code')
     CONFIRM_BUTTON_LOCATOR = (By.XPATH, '//button[text()="Confirm"]')
-    #Credit Card
+     #Credit Card
     PAYMENT_METHOD_LOCATOR = (By.CSS_SELECTOR, 'div.pp-text')
     ADD_CARD_LOCATOR = (By.CSS_SELECTOR, 'div.pp-title')
     CARD_NUMBER_LOCATOR = (By.ID, 'card number')
-    CARD_CODE_LOCATOR = (By.CLASS_NAME, 'card code')
+    CARD_CODE_LOCATOR = (By.CLASS_NAME, 'code')
     LINK_BUTTON_LOCATOR = (By.XPATH, '//button[text()="Link"]')
     CLOSE_BUTTON_LOCATOR = (By.XPATH, '//*[@id=root"]/div/div[2]/div[2]/div[1]/button')
     DRIVER_MESSAGE_FIELD_LOCATOR = (By.ID, 'message')
@@ -60,14 +60,14 @@ class UrbanRoutesPage:
     def click_call_taxi_button(self):
         self.driver.find_element(*self.CALL_A_TAXI_BUTTON_LOCATOR).click()
 
-    def click_supportive_plan(self):
-        self.driver.find_element(*self.SUPPORTIVE_LOCATOR).click()
+    def select_supportive_plan(self):
+        self.driver.find_element(*self.SUPPORTIVE_PLAN_LOCATOR).click()
 
-    def get_supportive_verify(self):
-        return self.driver.find_element(*self.SUPPORTIVE_VERIFY_LOCATOR).get_property('value')
+    def get_current_selected_plan(self):
+        return self.driver.find_element(*self.SUPPORTIVE_PLAN_LOCATOR).text
 
-    def phone_number_field(self):
-        self.driver.find_element(*self.PHONE_NUMBER_FIELD_LOCATOR).send_keys()
+    def set_phone(self, phone_number):
+        self.driver.find_element(*self.PHONE_FIELD_LOCATOR).send_keys(phone_number)
 
     def click_phone_number_field(self):
         self.driver.find_element(*self.PHONE_NUMBER_FIELD_LOCATOR).click()
@@ -83,7 +83,7 @@ class UrbanRoutesPage:
 
     def enter_phone_code(self):
         code = retrieve_phone_code(self.driver)
-        self.driver.find_element(*self.PHONE_CODE_LOCATOR).send_keys(data.CARD_CODE)
+        self.driver.find_element(*self.PHONE_CODE_LOCATOR).send_keys(code)
 
     def click_payment_method(self):
         self.driver.find_element(*self.PAYMENT_METHOD_LOCATOR).click()
@@ -92,10 +92,10 @@ class UrbanRoutesPage:
         self.driver.find_element(*self.ADD_CARD_LOCATOR).click()
 
     def enter_card_number(self):
-        self.driver.find_element(*self.CARD_NUMBER_LOCATOR).send_keys(data.CARD_NUMBER)
+        self.driver.find_element(*self.CARD_NUMBER_LOCATOR).send_keys(CARD_NUMBER)
 
     def enter_card_code(self):
-        self.drver.find_element(*self.CARD_CODE_LOCATOR).send_keys(data.CARD_CODE)
+        self.driver.find_element(*self.CARD_CODE_LOCATOR).send_keys(CARD_CODE)
 
     def click_link_button(self):
         self.driver.find_element(*self.LINK_BUTTON_LOCATOR).click()
@@ -109,8 +109,8 @@ class UrbanRoutesPage:
     def click_driver_message_field(self):
         self.driver.find_element(*self.DRIVER_MESSAGE_FIELD_LOCATOR).click()
 
-    def set_message_for_driver(self):
-        self.driver.find_element(*self.DRIVER_MESSAGE_FIELD_LOCATOR).send_keys(data.MESSAGE_FOR_DRIVER)
+    def set_message_for_driver(self,message):
+        self.driver.find_element(*self.DRIVER_MESSAGE_FIELD_LOCATOR).send_keys(message)
 
     def get_message_for_driver(self):
         return self.driver.find_element(*self.DRIVER_MESSAGE_FIELD_LOCATOR).get_attribute('value')
@@ -145,3 +145,11 @@ class UrbanRoutesPage:
         self.enter_from_location(from_text)
         self.enter_to_location(to_text)
         self.click_call_taxi_button()
+
+    def get_from(self):
+        return self.driver,find_element(*self.FROM_LOCATOR).get_attribute("value")
+
+    def get_to(self):
+        return self.driver,find_element(*self.TO_LOCATOR).get_attribute("value")
+
+
