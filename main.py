@@ -25,9 +25,10 @@ class TestUrbanRoutes:
     def test_set_route(self):
         self.driver.get(data.URBAN_ROUTES_URL)
         routes_page = UrbanRoutesPage(self.driver)
-        routes_page.set_route(data.ADDRESS_FROM, data.ADDRESS_TO)
-        assert routes_page.get_from()== data.ADDRESS_FROM
-        assert routes_page.get_to() == data.ADDRESS_TO
+        routes_page.enter_from_address(data.ADDRESS_FROM)
+        routes_page.enter_to_address(data.ADDRESS_TO)
+        assert routes_page.get_from_address() == data.ADDRESS_FROM
+        assert routes_page.get_to_address() == data.ADDRESS_TO
 
 
     def test_select_plan(self):

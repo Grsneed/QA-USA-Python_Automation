@@ -1,14 +1,14 @@
+import time
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.wait import WebDriverWait
 from helpers import retrieve_phone_code
-import data
-
 
 class UrbanRoutesPage:
 
      # Addresses
-    FROM_LOCATOR = (By.ID, 'from')
-    TO_LOCATOR = (By.ID, 'to')
+    FROM_FIELD = (By.ID, 'from')
+    TO_FIELD = (By.ID, 'to')
      #Tariff
     CUSTOM_OPTION_LOCATOR = (By.XPATH, '//div[text()="Custom"]')
     TAXI_ICON_LOCATOR = (By.XPATH, '//*[@id="root"]/div[3]/div[1]/div[2]/div[3]/img')
@@ -42,11 +42,18 @@ class UrbanRoutesPage:
     def __init__(self, driver):
         self.driver = driver
 
-    def enter_from_location(self, from_text):
-        return self.driver.find_element(*self.FROM_LOCATOR).get_attribute("value")
+    def enter_from_address(self, from_address):
+         self.driver.find_element(*self.FROM_FIELD).send_keys(from_address)
 
-    def enter_to_location(self, to_text):
-       return self.driver.find_element(*self.TO_LOCATOR).get_attribute("value")
+    def enter_to_address(self, to_address):
+        self.driver.find_element(*self.TO_FIELD).send_keys(to_address)
+
+
+    def get_from_address(self):
+         return self.driver.find_element(*self.FROM_FIELD).get_attribute('value')
+
+    def get_to(self):
+         return self.driver.find_element(*self.TO_FIELD).get_attribute('value')
 
     def get_selected_plan(self):
         return self.driver.find_element(*self.IS_PLAN_SELECTED).text
@@ -146,10 +153,6 @@ class UrbanRoutesPage:
         self.enter_to_location(to_text)
         self.click_call_taxi_button()
 
-    def get_from(self):
-        return self.driver,find_element(*self.FROM_LOCATOR).get_attribute("value")
 
-    def get_to(self):
-        return self.driver,find_element(*self.TO_LOCATOR).get_attribute("value")
 
 
