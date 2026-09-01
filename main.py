@@ -36,8 +36,9 @@ class TestUrbanRoutes:
         routes_page = UrbanRoutesPage(self.driver)
         routes_page.enter_from_location(data.ADDRESS_FROM)
         routes_page.enter_to_location(data.ADDRESS_TO)
+        routes_page.click_call_taxi_button()
         routes_page.select_supportive_plan()
-        assert routes_page.get_current_selected_plan() == "tcard active"
+        assert routes_page.get_current_selected_plan() == "Supportive"
 
 
     def test_fill_phone_number(self):
@@ -68,17 +69,18 @@ class TestUrbanRoutes:
         routes_page = UrbanRoutesPage(self.driver)
         routes_page.set_route(data.ADDRESS_FROM, data.ADDRESS_TO)
         routes_page.select_supportive_plan()
-        routes_page.click_blanket_and_handkerchiefs()
+        routes_page.click_blanket_handkerchiefs()
         assert routes_page.get_blanket_and_handkerchief_option()
 
     def test_order_2_ice_creams(self):
         self.driver.get(data.URBAN_ROUTES_URL)
-        routes_page = UrbanRoutesPage(self.driver)
+        routes_page = UrbanRoutesPage(self.driver)3
+
         routes_page.set_route(data.ADDRESS_FROM, data.ADDRESS_TO)
         routes_page.select_supportive_plan()
         number_of_ice_creams = 2
-        routes_page.add_ice_cream(number_of_ice_creams)
-        assert routes_page.get_amount_of_ice_cream() == 2
+        routes_page.set_ice_cream_counter(number_of_ice_creams)
+        assert routes_page.get_ice_cream_counter() == number_of_ice_creams
 
 
     def test_car_search_model_appears(self):
@@ -88,7 +90,7 @@ class TestUrbanRoutes:
         routes_page.select_supportive_plan()
         message = data.MESSAGE_FOR_DRIVER
         routes_page.set_message_for_driver(message)
-        routes_page.click_order_taxi_button()
+        routes_page.click_order_button()
         assert routes_page.is_order_taxi_icon()
 
 
