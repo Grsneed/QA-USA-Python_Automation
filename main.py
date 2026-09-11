@@ -74,7 +74,7 @@ class TestUrbanRoutes:
 
     def test_order_2_ice_creams(self):
         self.driver.get(data.URBAN_ROUTES_URL)
-        routes_page = UrbanRoutesPage(self.driver)3
+        routes_page = UrbanRoutesPage(self.driver)
 
         routes_page.set_route(data.ADDRESS_FROM, data.ADDRESS_TO)
         routes_page.select_supportive_plan()

@@ -16,9 +16,9 @@ class UrbanRoutesPage:
     TAXI_ICON_LOCATOR = (By.XPATH, '//*[@id="root"]/div[3]/div[1]/div[2]/div[3]/img')
     CALL_A_TAXI_BUTTON_LOCATOR = (By.XPATH, '//button[contains(text(), "Call a taxi")]')
     SUPPORTIVE_PLAN_LOCATOR = (By.XPATH, "//div[text()='Supportive]")
+    ACTIVE_PLAN_CARD = (By.XPATH, '//div[@class="t-card active"]//div[@class="t-card-title"]')
      #Phone Number
     PHONE_LOCATOR = (By.CLASS_NAME, 'np-text')
-    PHONE_NUMBER_FIELD_LOCATOR = (By.XPATH, '//div[text()="Phone number"]')
     PHONE_NUMBER = (By.XPATH, '/[div@class="np_button"//div[contains(text)(),"Phone number)]')
     PHONE_FIELD_LOCATOR = (By.ID, "phone")
     NEXT_BUTTON_LOCATOR = (By.XPATH, '//button[text()="Next"]')
@@ -30,7 +30,7 @@ class UrbanRoutesPage:
     CARD_NUMBER_LOCATOR = (By.ID, 'number')
     CARD_CODE_LOCATOR = (By.CSS_SELECTOR, '#code.card-input')
     LINK_BUTTON_LOCATOR = (By.XPATH, '//button[text()="Link"]')
-    CLOSE_BUTTON_LOCATOR = (By.XPATH, '//*[@id=root"]/div/div[2]/div[2]/div[1]/button')
+    CLOSE_BUTTON_LOCATOR = (By.XPATH, '//div[@class="payment-picker open"]//button[@class="close-button section-close"]')
     DRIVER_MESSAGE_FIELD_LOCATOR = (By.ID, 'comment')
     MODAL_WINDOW_LOCATOR_LOCATOR = (By.CLASS_NAME, 'modal')
      #Order
@@ -40,9 +40,9 @@ class UrbanRoutesPage:
     ICE_CREAM_COUNTER_VALUE_LOCATOR = (By.XPATH, '//div[@class="counter-value"]')
     ICE_CREAM_BUCKET_BUTTON_LOCATOR = (By.XPATH, '//div[text()="Ice Cream Bucket"]')
     ORDER_BUTTON_LOCATOR = (By.XPATH, '//span[@class="smart-button-main"]')
-    IS_PLAN_SELECTED = (By.CSS_SELECTOR, "tcard.active .tcard-title")
+    IS_PLAN_SELECTED = (By.CSS_SELECTOR, "t-card.active .t-card-title")
     BLANKET_HANDKERCHIEF_CHECK_LOCATOR = (By.CLASS_NAME, "switch-input")
-    MODAL_WINDOW_LOCATOR = (By.XPATH, "//div[text()='Car search']")
+    MODAL_WINDOW_LOCATOR = (By.CLASS_NAME, 'order-body')
 
 
 
@@ -54,12 +54,6 @@ class UrbanRoutesPage:
 
     def enter_to_address(self, to_address):
         self.driver.find_element(*self.TO_LOCATOR).send_keys(to_text)
-
-    def get_from_address(self):
-         return self.driver.find_element(*self.FROM_FIELD).get_attribute('value')
-
-    def get_to(self):
-         return self.driver.find_element(*self.TO_FIELD).get_attribute('value')
 
     def get_selected_plan(self):
         return self.driver.find_element(*self.IS_PLAN_SELECTED).text
@@ -132,10 +126,6 @@ class UrbanRoutesPage:
     def get_message_for_driver(self):
         return self.driver.find_element(*self.DRIVER_MESSAGE_FIELD_LOCATOR).get_attribute('value')
 
-    def enter_driver_message(self):
-        message_field = self.driver.find_element(*self.DRIVER_MESSAGE_FIELD_LOCATOR)
-        message_field.send_keys(message)
-
     def get_modal_window(self):
         modal = self.driver.find_element(*self.MODAL_WINDOW_LOCATOR)
         return 'displayed' if modal.is_displayed() else 'not displayed'
@@ -144,7 +134,8 @@ class UrbanRoutesPage:
         WebDriverWait(self.driver, 3).until(EC.element_to_be_clickable(self.BLANKET_HANDKERCHIEF_LOCATOR)).click()
 
     def get_blanket_handkerchiefs(self):
-        self.driver.find_element(*self.BLANKET_HANDKERCHIEF_LOCATOR).get_attribute('value')
+        return self.driver.find_element(*self.BLANKET_HANDKERCHIEF_LOCATOR).get_property('checked')
+
 
     def set_ice_cream_counter(self, AMOUNT):
         ice_cream_counter_button = WebDriverWait(self.driver, 3).until(
@@ -164,23 +155,15 @@ class UrbanRoutesPage:
         self.enter_to_location(to_text)
         self.click_call_taxi_button()
 
-    def get_from(self):
-         return self.driver.find_element(*self.FROM_LOCATOR).get_attribute("value")
 
-    def get_to(self):
-        return self.driver.find_element(*self.TO_LOCATOR).get_attribute("value")
-
-
-def set_card(self, card, cvv):
-    self.click_payment_method()
-    self.click_add_card()
-    self.enter_card_number(card)
-    self.enter_card_code(cvv)
-    self.enter_card_code(Keys.TAB)
-    self.click_link_button()
+    def set_card(self, card, cvv):
+        self.click_payment_method()
+        self.click_add_card()
+        self.enter_card_number(card)
+        self.enter_card_code(cvv)
+        self.enter_card_code(Keys.TAB)
+        self.click_link_button()
 
     def get_current_payment_method(self):
         return self.driver.find_element(*self.PAYMENT_METHOD_LOCATOR).text
 
-    def get_blanket_and_handkerchief_option(self):
-        return self.driver.find_element(*self.BLANKET_HANDKERCHIEF_CHECK_LOCATOR).get_property("checked")
