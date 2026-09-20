@@ -15,7 +15,7 @@ class UrbanRoutesPage:
     CUSTOM_OPTION_LOCATOR = (By.XPATH, '//div[text()="Custom"]')
     TAXI_ICON_LOCATOR = (By.XPATH, '//*[@id="root"]/div[3]/div[1]/div[2]/div[3]/img')
     CALL_A_TAXI_BUTTON_LOCATOR = (By.XPATH, '//button[contains(text(), "Call a taxi")]')
-    SUPPORTIVE_PLAN_LOCATOR = (By.XPATH, "//div[text()='Supportive]")
+    SUPPORTIVE_PLAN_LOCATOR = (By.XPATH, '//div[contains(text(), "Supportive")]')
     ACTIVE_PLAN_CARD = (By.XPATH, '//div[@class="t-card active"]//div[@class="t-card-title"]')
      #Phone Number
     PHONE_LOCATOR = (By.CLASS_NAME, 'np-text')
@@ -49,11 +49,17 @@ class UrbanRoutesPage:
     def __init__(self, driver):
         self.driver = driver
 
-    def enter_from_address(self, from_address):
-         self.driver.find_element(*self.FROM_LOCATOR).send_keys(from_text)
+    def enter_from_field(self, from_field):
+         self.driver.find_element(*self.FROM_FIELD).send_keys(from_field)
 
-    def enter_to_address(self, to_address):
-        self.driver.find_element(*self.TO_LOCATOR).send_keys(to_text)
+    def get_from_field(self):
+        return self.driver.find_element(*self.FROM_FIELD).get_property('value')
+
+    def enter_to_field(self, to_field):
+        self.driver.find_element(*self.TO_FIELD).send_keys(to_field)
+
+    def get_to_field(self):
+        return self.driver.find_element(*self.TO_FIELD).get_property('value')
 
     def get_selected_plan(self):
         return self.driver.find_element(*self.IS_PLAN_SELECTED).text
@@ -63,6 +69,7 @@ class UrbanRoutesPage:
 
     def click_taxi_icon(self):
         self.driver.find_element(*self.TAXI_ICON_LOCATOR).click()
+        return self.driver.find_element(*self.TAXI_ICON_LOCATOR).is_displayed()
 
     def click_call_taxi_button(self):
         self.driver.find_element(*self.CALL_A_TAXI_BUTTON_LOCATOR).click()
@@ -136,8 +143,7 @@ class UrbanRoutesPage:
     def get_blanket_handkerchiefs(self):
         return self.driver.find_element(*self.BLANKET_HANDKERCHIEF_LOCATOR).get_property('checked')
 
-
-    def set_ice_cream_counter(self, AMOUNT):
+    def set_ice_cream_counter(self, amount):
         ice_cream_counter_button = WebDriverWait(self.driver, 3).until(
             EC.element_to_be_clickable(self.ICE_CREAM_PLUS_BUTTON_LOCATOR))
         for _ in range(amount):
@@ -150,9 +156,9 @@ class UrbanRoutesPage:
     def click_order_button(self):
         self.driver.find_element(*self.ORDER_BUTTON_LOCATOR).click()
 
-    def set_route(self, from_text, to_text):
-        self.enter_from_location(from_text)
-        self.enter_to_location(to_text)
+    def set_route(self, from_field, to_field):
+        self.enter_from_field(from_field)
+        self.enter_to_field(to_field)
         self.click_call_taxi_button()
 
 

@@ -25,17 +25,17 @@ class TestUrbanRoutes:
     def test_set_route(self):
         self.driver.get(data.URBAN_ROUTES_URL)
         routes_page = UrbanRoutesPage(self.driver)
-        routes_page.enter_from_address(data.ADDRESS_FROM)
-        routes_page.enter_to_address(data.ADDRESS_TO)
-        assert routes_page.get_from_address() == data.ADDRESS_FROM
-        assert routes_page.get_to_address() == data.ADDRESS_TO
+        routes_page.enter_from_field(data.ADDRESS_FROM)
+        routes_page.enter_to_field(data.ADDRESS_TO)
+        assert routes_page.get_from_field() == data.ADDRESS_FROM
+        assert routes_page.get_to_field() == data.ADDRESS_TO
 
 
     def test_select_plan(self):
         self.driver.get(data.URBAN_ROUTES_URL)
         routes_page = UrbanRoutesPage(self.driver)
-        routes_page.enter_from_location(data.ADDRESS_FROM)
-        routes_page.enter_to_location(data.ADDRESS_TO)
+        routes_page.enter_from_field(data.ADDRESS_FROM)
+        routes_page.enter_to_field(data.ADDRESS_TO)
         routes_page.click_call_taxi_button()
         routes_page.select_supportive_plan()
         assert routes_page.get_current_selected_plan() == "Supportive"
@@ -70,7 +70,7 @@ class TestUrbanRoutes:
         routes_page.set_route(data.ADDRESS_FROM, data.ADDRESS_TO)
         routes_page.select_supportive_plan()
         routes_page.click_blanket_handkerchiefs()
-        assert routes_page.get_blanket_and_handkerchief_option()
+        assert routes_page.get_blanket_and_handkerchiefs()
 
     def test_order_2_ice_creams(self):
         self.driver.get(data.URBAN_ROUTES_URL)
