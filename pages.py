@@ -32,14 +32,14 @@ class UrbanRoutesPage:
     LINK_BUTTON_LOCATOR = (By.XPATH, '//button[text()="Link"]')
     CLOSE_BUTTON_LOCATOR = (By.XPATH, '//div[@class="payment-picker open"]//button[@class="close-button section-close"]')
     DRIVER_MESSAGE_FIELD_LOCATOR = (By.ID, 'comment')
-    MODAL_WINDOW_LOCATOR_LOCATOR = (By.CLASS_NAME, 'modal')
+    MODAL_WINDOW_LOCATOR = (By.CLASS_NAME, 'modal')
      #Order
-    BLANKET_HANDKERCHIEF_LOCATOR = (By.XPATH, '(//span@class="slider round"])[1]')
+    BLANKET_HANDKERCHIEF_LOCATOR = (By.XPATH, '(//span[@class="slider round"])')
     ICE_CREAM_LOCATOR = (By.CLASS_NAME, '//div@class= "r-counter-label"]//div[text(), "Ice cream"]')
     ICE_CREAM_PLUS_BUTTON_LOCATOR = (By.CLASS_NAME, 'counter-plus')
     ICE_CREAM_COUNTER_VALUE_LOCATOR = (By.XPATH, '//div[@class="counter-value"]')
     ICE_CREAM_BUCKET_BUTTON_LOCATOR = (By.XPATH, '//div[text()="Ice Cream Bucket"]')
-    ORDER_BUTTON_LOCATOR = (By.XPATH, '//span[@class="smart-button-main"]')
+    ORDER_BUTTON_LOCATOR = (By.CLASS_NAME, 'smart-button-wrapper')
     IS_PLAN_SELECTED = (By.CSS_SELECTOR, "t-card.active .t-card-title")
     BLANKET_HANDKERCHIEF_CHECK_LOCATOR = (By.CLASS_NAME, "switch-input")
     MODAL_WINDOW_LOCATOR = (By.CLASS_NAME, 'order-body')
@@ -82,13 +82,13 @@ class UrbanRoutesPage:
 
     def set_phone(self, phone_number):
         self.click_phone_number_field()
-        self.driver.find_element(*self.PHONE_FIELD_LOCATOR).send_keys(phone_number)
+        self.driver.find_element(*self.PHONE_LOCATOR).send_keys(phone_number)
         self.driver.find_element(*self.NEXT_BUTTON_LOCATOR).click()
         self.driver.find_element(*self.PHONE_CODE_LOCATOR).send_keys(retrieve_phone_code(self.driver))
         self.driver.find_element(*self.CONFIRM_BUTTON_LOCATOR).click()
 
     def click_phone_number_field(self):
-        self.driver.find_element(*self.PHONE_NUMBER_FIELD_LOCATOR).click()
+        self.driver.find_element(*self.PHONE_LOCATOR).click()
 
     def enter_phone_number(self):
          self.driver.find_element(*self.PHONE_NUMBER_INPUT).send_keys(data.PHONE_NUMBER)
@@ -107,7 +107,7 @@ class UrbanRoutesPage:
         self.driver.find_element(*self.PAYMENT_METHOD_LOCATOR).click()
 
     def click_add_card(self):
-        WebDriverWait(self.driver, 3).until(EC.element_to_be_clickable(self.ADD_CARD_LOCATOR)).click()
+        WebDriverWait(self.driver, 3).until(expected_conditions.element_to_be_clickable(self.ADD_CARD_LOCATOR)).click()
 
     def enter_card_number(self, CARD_NUMBER):
         self.driver.find_element(*self.CARD_NUMBER_LOCATOR).send_keys(CARD_NUMBER)
@@ -135,17 +135,17 @@ class UrbanRoutesPage:
 
     def get_modal_window(self):
         modal = self.driver.find_element(*self.MODAL_WINDOW_LOCATOR)
-        return 'displayed' if modal.is_displayed() else 'not displayed'
+        return 'true' if modal.is_displayed() else 'false'
 
     def click_blanket_handkerchiefs(self):
-        WebDriverWait(self.driver, 3).until(EC.element_to_be_clickable(self.BLANKET_HANDKERCHIEF_LOCATOR)).click()
+        WebDriverWait(self.driver, 3).until(expected_conditions.element_to_be_clickable(self.BLANKET_HANDKERCHIEF_LOCATOR)).click()
 
     def get_blanket_handkerchiefs(self):
-        return self.driver.find_element(*self.BLANKET_HANDKERCHIEF_LOCATOR).get_property('checked')
+        return self.driver.find_element(*self.BLANKET_HANDKERCHIEF_CHECK_LOCATOR).get_property('checked')
 
     def set_ice_cream_counter(self, amount):
         ice_cream_counter_button = WebDriverWait(self.driver, 3).until(
-            EC.element_to_be_clickable(self.ICE_CREAM_PLUS_BUTTON_LOCATOR))
+            expected_conditions.element_to_be_clickable(self.ICE_CREAM_PLUS_BUTTON_LOCATOR))
         for _ in range(amount):
             ice_cream_counter_button.click()
 
