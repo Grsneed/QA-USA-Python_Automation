@@ -92,7 +92,7 @@ class TestUrbanRoutes:
         message = data.MESSAGE_FOR_DRIVER
         routes_page.set_message_for_driver(message)
         routes_page.click_order_button()
-        assert routes_page.is_order_taxi_icon()
+        assert routes_page.get_modal_window()
 
 
     @classmethod

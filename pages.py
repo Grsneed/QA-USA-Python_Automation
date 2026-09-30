@@ -13,10 +13,10 @@ class UrbanRoutesPage:
     TO_FIELD = (By.ID, 'to')
      #Tariff
     CUSTOM_OPTION_LOCATOR = (By.XPATH, '//div[text()="Custom"]')
-    TAXI_ICON_LOCATOR = (By.XPATH, '//*[@id="root"]/div[3]/div[1]/div[2]/div[3]/img')
+    TAXI_ICON_LOCATOR = (By.XPATH, '//button[text()="Call a taxi"]')
     CALL_A_TAXI_BUTTON_LOCATOR = (By.XPATH, '//button[contains(text(), "Call a taxi")]')
     SUPPORTIVE_PLAN_LOCATOR = (By.XPATH, '//div[contains(text(), "Supportive")]')
-    ACTIVE_PLAN_CARD = (By.XPATH, '//div[@class="t-card active"]//div[@class="t-card-title"]')
+    ACTIVE_PLAN_CARD = (By.XPATH, '//div[@class="tcard active"]//div[@class="tcard-title"]')
      #Phone Number
     PHONE_LOCATOR = (By.CLASS_NAME, 'np-text')
     PHONE_NUMBER = (By.XPATH, '/[div@class="np_button"//div[contains(text)(),"Phone number)]')
@@ -32,7 +32,6 @@ class UrbanRoutesPage:
     LINK_BUTTON_LOCATOR = (By.XPATH, '//button[text()="Link"]')
     CLOSE_BUTTON_LOCATOR = (By.XPATH, '//div[@class="payment-picker open"]//button[@class="close-button section-close"]')
     DRIVER_MESSAGE_FIELD_LOCATOR = (By.ID, 'comment')
-    MODAL_WINDOW_LOCATOR = (By.CLASS_NAME, 'modal')
      #Order
     BLANKET_HANDKERCHIEF_LOCATOR = (By.XPATH, '(//span[@class="slider round"])')
     ICE_CREAM_LOCATOR = (By.CLASS_NAME, '//div@class= "r-counter-label"]//div[text(), "Ice cream"]')
@@ -72,17 +71,17 @@ class UrbanRoutesPage:
         return self.driver.find_element(*self.TAXI_ICON_LOCATOR).is_displayed()
 
     def click_call_taxi_button(self):
-        self.driver.find_element(*self.CALL_A_TAXI_BUTTON_LOCATOR).click()
+        WebDriverWait(self.driver, 3).until(expected_conditions.element_to_be_clickable(self.TAXI_ICON_LOCATOR)).click()
 
     def select_supportive_plan(self):
         self.driver.find_element(*self.SUPPORTIVE_PLAN_LOCATOR).click()
 
     def get_current_selected_plan(self):
-        return self.driver.find_element(*self.SUPPORTIVE_PLAN_LOCATOR).text
+        return self.driver.find_element(*self.ACTIVE_PLAN_CARD).text
 
     def set_phone(self, phone_number):
         self.click_phone_number_field()
-        self.driver.find_element(*self.PHONE_LOCATOR).send_keys(phone_number)
+        self.driver.find_element(*self.PHONE_FIELD_LOCATOR).send_keys(phone_number)
         self.driver.find_element(*self.NEXT_BUTTON_LOCATOR).click()
         self.driver.find_element(*self.PHONE_CODE_LOCATOR).send_keys(retrieve_phone_code(self.driver))
         self.driver.find_element(*self.CONFIRM_BUTTON_LOCATOR).click()
